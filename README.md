@@ -4,10 +4,17 @@
 
 ## Getting Started
 
+
+In the root directory of the project
+
 To run the program run:
-
-'''
+```
 ./main.sh
-...
+```
 
-in the root directory of the project
+To run testcases:
+
+```
+./test.sh
+```
+
