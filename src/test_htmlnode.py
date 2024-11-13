@@ -1,4 +1,4 @@
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import ParentNode, HTMLNode, LeafNode
 import unittest
 
 class TestHTMLNode(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestHTMLNode(unittest.TestCase):
         )
         self.assertEqual(
             node.props_to_html(),
-            'class="greeting" href="https://boot.dev"',
+            ' class="greeting" href="https://boot.dev"',
         )
 
     def test_values(self):
@@ -51,7 +51,7 @@ class TestHTMLNode(unittest.TestCase):
     def test_case_dt(self):
         childlist = [HTMLNode(None,"child b"),HTMLNode(None,"child b")]
         node = HTMLNode("a", "inside a", childlist, {"testval":"testprop"})
-        self.assertEqual(node.props_to_html(),f'''testval="testprop"''') 
+        self.assertEqual(node.props_to_html(),f''' testval="testprop"''') 
 
     def test_case_none(self):
         node =  HTMLNode("a", "inside a",None )
@@ -61,7 +61,7 @@ class TestHTMLNode(unittest.TestCase):
     def test_case_two_val(self):
         node =  HTMLNode("a", "inside a",None ,{"testval1":"test", "testval2":"test"})
         
-        self.assertEqual(node.props_to_html(),f'''testval1="test" testval2="test"''') 
+        self.assertEqual(node.props_to_html(),f''' testval1="test" testval2="test"''') 
     
     def test_case_hflag(self):
         node = LeafNode("p", "inside a", {"testval1":"test", "testval2":"test"})
@@ -74,5 +74,15 @@ class TestHTMLNode(unittest.TestCase):
     def test_case_no_tag_leaf(self):
         node = LeafNode(None, "inside a", {"testval1":"test", "testval2":"test"})
         self.assertEqual(node.to_html(),"inside a")
+
+
+    def test_parent_child_exists(self):
+        
+        node_child = LeafNode("b", "inside b", {"testval1":"test", "testval2":"test"})
+        node_child_1 = LeafNode("a", "inside a" )
+        node_sub_parent = ParentNode("parent_sub", [node_child_1], {"testval1":"test", "testval2":"test"})
+        node = ParentNode("parentmain", [node_child,node_sub_parent])
+        self.assertEqual( node.to_html(),f'''<parentmain><b testval1="test" testval2="test">inside b</b><parent_sub testval1="test" testval2="test"><a>inside a</a></parent_sub></parentmain>''')
+
 if __name__ == "__main__":
     unittest.main()
