@@ -1,3 +1,4 @@
+import re
 from textnode import TextType, TextNode
 
 
@@ -28,5 +29,15 @@ class RawTextParser:
             new_nodes.extend(split_nodes)
         return new_nodes
 
+    def extract_markdown_images(self,text):
+        pattern = r"!\[([^\[\]]*)\]\(([^\(\)]*)\)"
+        matches = re.findall(pattern, text)
+        return matches
+
+
+    def extract_markdown_links(self, text):
+        pattern = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
+        matches = re.findall(pattern, text)
+        return matches
                         
 
