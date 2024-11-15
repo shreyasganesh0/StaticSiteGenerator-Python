@@ -3,6 +3,14 @@ from textnode import TextType, TextNode
 
 
 class RawTextParser:
+    def text_to_textnodes(self, text):
+        nodes = [TextNode(text, TextType.NORMAL)]
+        nodes = self.text_node_delimiter(nodes,"**", TextType.BOLD)
+        nodes = self.text_node_delimiter(nodes, "*", TextType.ITALIC)
+        nodes = self.text_node_delimiter(nodes, "`", TextType.CODE)
+        nodes = self.split_nodes_image(nodes)
+        nodes = self.split_nodes_link(nodes)
+        return nodes
 
     def text_node_delimiter(self, old_nodes, delimiter, text_type):
         """
@@ -92,4 +100,13 @@ class RawTextParser:
         matches = re.findall(pattern, text)
         return matches
                         
-
+class BlockHandler:
+    def markdown_to_blocks(self, markdown):
+        block_delimiter = "\n\n"
+        markdownlist = markdown.split(block_delimiter)
+        anslist =[]
+        for block in markdownlist:
+            if block == "":
+                continue
+            anslist.append(block.strip())
+        return anslist
