@@ -2,6 +2,9 @@
 
 ## A program that generates HTML from markdown for ease of creation of static sites
 
+![image](MarkdownImage/design.png)
+
+
 ## Getting Started
 
 
